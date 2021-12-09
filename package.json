@@ -1,5 +1,5 @@
 {
-  "name": "your-project-name-here-server",
+  "name": "financeer",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -14,7 +14,7 @@
     "express": "^4.17.1",
     "express-jwt": "^6.1.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.14",
+    "mongoose": "^6.1.0",
     "morgan": "^1.10.0"
   },
   "devDependencies": {

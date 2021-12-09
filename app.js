@@ -21,9 +21,17 @@ app.use("/", allRoutes);
 const authRoutes = require("./routes/auth.routes");
 app.use("/", authRoutes);
 
-
 const userRoutes = require("./routes/user.routes");
 app.use("/", userRoutes);
+
+const expenseRoutes = require("./routes/main/expense.routes");
+app.use("/", expenseRoutes);
+
+const incomeRoutes = require("./routes/main/income.routes");
+app.use("/", incomeRoutes);
+
+const investmentRoutes = require("./routes/main/investment.routes");
+app.use("/", investmentRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
