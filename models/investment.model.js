@@ -1,16 +1,15 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
-const investmentsSchema = new Schema (
-    {
-        stocks: {type: String, required: true}, 
-        amount: {type:Number, required: true}, 
-        purchasePrice: {type:Number, required: true},
-        priceOfTheDay: {type:Number, required: true}
+const investmentsSchema = new Schema({
+  asset: String,
+  cost: String,
+  shares: String,
+  price: String,
+  value: String,
+  change: String,
+});
 
-    }
-) 
-
-const Investment = mongoose.model('Investment', investmentsSchema)
+const Investment = mongoose.model("Investment", investmentsSchema);
 
 module.exports = Investment;

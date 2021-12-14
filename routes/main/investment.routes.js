@@ -1,17 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const Investments = require("../../models/investment.model");
+const mongoose = require("mongoose");
 
 // POST - create investment
 router.post("/api/investments", async (req, res, next) => {
   try {
-    const { stocks, amount, purchasePrice, priceOfTheDay } = req.body;
+    const { asset, cost, shares, price, value, chance } = req.body;
 
-    const createdInvestment = await InvestmentsModel.create({
-      stocks,
-      amount,
-      purchasePrice,
-      priceOfTheDay,
+    const createdInvestment = await Investments.create({
+      asset, cost, shares, price, value, chance
     });
 
     res.status(201).json(createdInvestment);
@@ -34,6 +32,11 @@ router.get("/api/investments", async (req, res, next) => {
 // GET - get a specific investments
 router.get("/api/investments/:investmentId", async (req, res, next) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(investmentId)) {
+      res.status(400).json({ message: "Invalid object id" });
+      return;
+    }
+
     const { investmentId } = req.params;
 
     const oneInvestment = await Investments.findById(investmentId);
@@ -47,13 +50,18 @@ router.get("/api/investments/:investmentId", async (req, res, next) => {
 // PUT - put Update a specific investment
 router.put("/api/investments/:investmentId", async (req, res, next) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(investmentId)) {
+      res.status(400).json({ message: "Invalid object id" });
+      return;
+    }
+
     const { investmentId } = req.params;
 
-    const { stocks, amount, purchasePrice } = req.body;
+    const {  aasset, cost, shares, price, value, chance } = req.body;
 
     const updateInvestment = await Investments.findByIdAndUpdate(
       investmentId,
-      { stocks, amount, purchasePrice },
+      {  asset, cost, shares, price, value, chance },
       { new: true }
     );
 
@@ -66,6 +74,11 @@ router.put("/api/investments/:investmentId", async (req, res, next) => {
 //DELETE - delete a specific investment
 router.delete("/api/investment/:investmentId", async (req, res, next) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(investmentId)) {
+      res.status(400).json({ message: "Invalid object id" });
+      return;
+    }
+
     const { investmentId } = req.params;
 
     await Investments.findByIdAndDelete(investmentId);

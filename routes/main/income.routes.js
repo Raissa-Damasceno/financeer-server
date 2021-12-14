@@ -1,15 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const Income = require("../../models/income.model");
+const mongoose = require("mongoose");
 
 //create income
 router.post("/api/income", async (req, res, next) => {
   try {
     const { description, value, date, category } = req.body;
 
-    const createdIncome = await IncomeModel.create({
+    const createdIncome = await Income.create({
       description,
-      value,
+      value, 
       date,
       category,
     });
@@ -34,6 +35,10 @@ router.get("/api/income", async (req, res, next) => {
 // get a specific income
 router.get("/api/income/:incomeId", async (req, res, next) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(incomeId)) {
+      res.status(400).json({ message: "Invalid object id" });
+      return;
+    }
     const { incomeId } = req.params;
 
     const oneIncome = await Income.findById(incomeId);
@@ -47,6 +52,10 @@ router.get("/api/income/:incomeId", async (req, res, next) => {
 // PUT - put Update a specific income
 router.put("/api/income/:incomeId", async (req, res, next) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(incomeId)) {
+      res.status(400).json({ message: "Invalid object id" });
+      return;
+    }
     const { incomeId } = req.params;
 
     const { description, value, date, category } = req.body;
@@ -66,6 +75,10 @@ router.put("/api/income/:incomeId", async (req, res, next) => {
 //DELETE - delete a specific income
 router.delete("/api/income/:incomeId", async (req, res, next) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(incomeId)) {
+      res.status(400).json({ message: "Invalid object id" });
+      return;
+    }
     const { incomeId } = req.params;
 
     await Income.findByIdAndDelete(incomeId);

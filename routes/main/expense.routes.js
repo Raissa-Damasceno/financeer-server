@@ -1,13 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const Expense = require("../../models/expense.model");
+const mongoose = require("mongoose");
 
 //create expense
 router.post("/api/expenses", async (req, res, next) => {
   try {
     const { description, value, date, category } = req.body;
+    console.log(req.body);
 
-    const createdExpense = await ExpenseModel.create({
+    const createdExpense = await Expense.create({
       description,
       value,
       date,
@@ -34,9 +36,15 @@ router.get("/api/expenses", async (req, res, next) => {
 // get a specific expense
 router.get("/api/expenses/:expensesId", async (req, res, next) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(expensesId)) {
+      res.status(400).json({ message: "Invalid object id" });
+      return;
+    }
+
     const { expensesId } = req.params;
 
     const oneExpense = await Expense.findById(expensesId);
+
 
     res.status(200).json(oneExpense);
   } catch (error) {
@@ -47,8 +55,14 @@ router.get("/api/expenses/:expensesId", async (req, res, next) => {
 // PUT - put Update a specific expense
 router.put("/api/expenses/:expensesId", async (req, res, next) => {
   try {
+    
     const { expensesId } = req.params;
 
+    if (!mongoose.Types.ObjectId.isValid(expensesId)) {
+      res.status(400).json({ message: "Invalid object id" });
+      return;
+    }
+    
     const { description, value, date, category } = req.body;
 
     const updateExpense = await Expense.findByIdAndUpdate(
@@ -66,6 +80,10 @@ router.put("/api/expenses/:expensesId", async (req, res, next) => {
 //DELETE - delete a specific expense
 router.delete("/api/expenses/:expensesId", async (req, res, next) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(expensesId)) {
+      res.status(400).json({ message: "Invalid object id" });
+      return;
+    }
     const { expensesId } = req.params;
 
     await Expense.findByIdAndDelete(expensesId);
