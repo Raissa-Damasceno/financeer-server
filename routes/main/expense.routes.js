@@ -36,15 +36,14 @@ router.get("/api/expenses", async (req, res, next) => {
 // get a specific expense
 router.get("/api/expenses/:expensesId", async (req, res, next) => {
   try {
+    const { expensesId } = req.params;
+
     if (!mongoose.Types.ObjectId.isValid(expensesId)) {
       res.status(400).json({ message: "Invalid object id" });
       return;
     }
-
-    const { expensesId } = req.params;
-
+    
     const oneExpense = await Expense.findById(expensesId);
-
 
     res.status(200).json(oneExpense);
   } catch (error) {
@@ -80,11 +79,11 @@ router.put("/api/expenses/:expensesId", async (req, res, next) => {
 //DELETE - delete a specific expense
 router.delete("/api/expenses/:expensesId", async (req, res, next) => {
   try {
+    const { expensesId } = req.params;
     if (!mongoose.Types.ObjectId.isValid(expensesId)) {
       res.status(400).json({ message: "Invalid object id" });
       return;
     }
-    const { expensesId } = req.params;
 
     await Expense.findByIdAndDelete(expensesId);
 

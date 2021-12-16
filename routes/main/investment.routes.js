@@ -32,12 +32,13 @@ router.get("/api/investments", async (req, res, next) => {
 // GET - get a specific investments
 router.get("/api/investments/:investmentId", async (req, res, next) => {
   try {
+    const { investmentId } = req.params;
+
     if (!mongoose.Types.ObjectId.isValid(investmentId)) {
       res.status(400).json({ message: "Invalid object id" });
       return;
     }
 
-    const { investmentId } = req.params;
 
     const oneInvestment = await Investments.findById(investmentId);
 
@@ -74,12 +75,13 @@ router.put("/api/investments/:investmentId", async (req, res, next) => {
 //DELETE - delete a specific investment
 router.delete("/api/investment/:investmentId", async (req, res, next) => {
   try {
+    const { investmentId } = req.params;
+    
     if (!mongoose.Types.ObjectId.isValid(investmentId)) {
       res.status(400).json({ message: "Invalid object id" });
       return;
     }
 
-    const { investmentId } = req.params;
 
     await Investments.findByIdAndDelete(investmentId);
 
